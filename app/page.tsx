@@ -53,11 +53,17 @@ export default function WeiPhotographyStudio() {
   const [selectedDate, setSelectedDate] = React.useState('');
   const [selectedSession, setSelectedSession] = React.useState('');
 
+  const scrollToBooking = () => {
+    document.getElementById("calendar")?.scrollIntoView({
+      behavior: "smooth",
+    });
+  };
+
   return (
     <div className="min-h-screen bg-[#f8f5f0] text-[#2b2b2b] font-serif">
 
-      {/* HEADER */}
       <header className="relative h-screen overflow-hidden">
+
         <img
           src="/photos/header.jpg"
           alt="Photography Hero"
@@ -72,18 +78,12 @@ export default function WeiPhotographyStudio() {
           </div>
 
           <div className="hidden md:flex gap-8 text-sm tracking-wide uppercase text-white/90">
-            <a href="#portfolio" className="hover:opacity-60 transition">
-              Portfolio
-            </a>
-            <a href="#packages" className="hover:opacity-60 transition">
-              Packages
-            </a>
-            <a href="#calendar" className="hover:opacity-60 transition">
-              Availability
-            </a>
-            <a href="#calendar" className="hover:opacity-60 transition">
-              Booking
-            </a>
+            <a href="#portfolio">Portfolio</a>
+            <a href="#packages">Packages</a>
+            <a href="#calendar">Availability</a>
+
+            {/* FIXED */}
+            <a href="#calendar">Booking</a>
           </div>
         </nav>
 
@@ -103,20 +103,21 @@ export default function WeiPhotographyStudio() {
               Elegant portrait photography crafted with soft cinematic tones, refined styling, and timeless emotion.
             </p>
 
-            {/* FIXED HERO BUTTON ONLY */}
+            {/* FIXED */}
             <a
               href="#calendar"
               className="inline-block mt-10 rounded-full border border-white px-8 py-4 text-sm uppercase tracking-[0.2em] text-white hover:bg-white hover:text-black transition duration-300"
             >
               Book Your Session
             </a>
+
           </div>
         </div>
       </header>
 
-      {/* PORTFOLIO */}
       <section id="portfolio" className="px-6 py-24 md:px-16">
         <div className="max-w-7xl mx-auto">
+
           <div className="mb-16 text-center">
             <p className="uppercase tracking-[0.3em] text-sm text-neutral-500">
               Portfolio
@@ -147,7 +148,6 @@ export default function WeiPhotographyStudio() {
         </div>
       </section>
 
-      {/* PACKAGES */}
       <section id="packages" className="bg-[#ece6dc] px-6 py-24 md:px-16">
         <div className="max-w-6xl mx-auto">
 
@@ -176,9 +176,7 @@ export default function WeiPhotographyStudio() {
                 <button
                   onClick={() => {
                     setSelectedSession(pkg.title);
-                    document.getElementById("calendar")?.scrollIntoView({
-                      behavior: "smooth",
-                    });
+                    scrollToBooking();
                   }}
                   className="mt-10 w-full rounded-full bg-black px-6 py-4 text-sm uppercase tracking-[0.2em] text-white transition hover:opacity-90"
                 >
@@ -190,8 +188,8 @@ export default function WeiPhotographyStudio() {
         </div>
       </section>
 
-      {/* BOOKING */}
       <section id="calendar" className="bg-[#ece6dc] px-6 py-24 md:px-16">
+
         <div className="max-w-5xl mx-auto">
 
           <div className="text-center mb-16">
@@ -205,63 +203,60 @@ export default function WeiPhotographyStudio() {
 
           <div className="max-w-2xl mx-auto rounded-[2rem] bg-white p-10 shadow-2xl border border-neutral-100">
 
-            <div className="space-y-6">
+            <select
+              value={selectedSession}
+              onChange={(e) => setSelectedSession(e.target.value)}
+              className="w-full rounded-2xl border px-5 py-4 mb-4"
+            >
+              <option value="">Select Session</option>
+              {packages.map((p) => (
+                <option key={p.title} value={p.title}>
+                  {p.title}
+                </option>
+              ))}
+            </select>
 
-              <select
-                value={selectedSession}
-                onChange={(e) => setSelectedSession(e.target.value)}
-                className="w-full rounded-2xl border px-5 py-4"
-              >
-                <option value="">Select Session</option>
-                {packages.map((p) => (
-                  <option key={p.title} value={p.title}>
-                    {p.title}
-                  </option>
-                ))}
-              </select>
+            <select
+              value={selectedDate}
+              onChange={(e) => setSelectedDate(e.target.value)}
+              className="w-full rounded-2xl border px-5 py-4 mb-4"
+            >
+              <option value="">Select Date</option>
+              {availableDates.map((d) => (
+                <option key={d} value={d}>{d}</option>
+              ))}
+            </select>
 
-              <select
-                value={selectedDate}
-                onChange={(e) => setSelectedDate(e.target.value)}
-                className="w-full rounded-2xl border px-5 py-4"
-              >
-                <option value="">Select Date</option>
-                {availableDates.map((d) => (
-                  <option key={d} value={d}>{d}</option>
-                ))}
-              </select>
+            <input
+              type="email"
+              placeholder="hello@example.com"
+              className="w-full rounded-2xl border px-5 py-4 mb-4"
+            />
 
-              <input
-                type="email"
-                placeholder="Your Email"
-                className="w-full rounded-2xl border px-5 py-4"
-              />
+            <button
+              onClick={() => {
+                if (!selectedDate || !selectedSession) {
+                  alert("Please select session and date");
+                  return;
+                }
 
-              <button
-                onClick={() => {
-                  if (!selectedDate || !selectedSession) {
-                    alert("Please select session and date");
-                    return;
-                  }
+                alert(
+                  `Booking Request Sent!\nSession: ${selectedSession}\nDate: ${selectedDate}`
+                );
+              }}
+              className="w-full rounded-full bg-black px-8 py-5 text-sm uppercase tracking-[0.25em] text-white transition hover:opacity-90"
+            >
+              Request Booking
+            </button>
 
-                  alert(
-                    `Booking Request Sent!\nSession: ${selectedSession}\nDate: ${selectedDate}`
-                  );
-                }}
-                className="w-full rounded-full bg-black px-8 py-5 text-sm uppercase tracking-[0.25em] text-white transition hover:opacity-90"
-              >
-                Request Booking
-              </button>
-
-            </div>
           </div>
         </div>
       </section>
 
-      {/* FOOTER */}
       <footer className="border-t border-neutral-200 px-6 py-10 text-center text-sm tracking-wide text-neutral-500">
         © 2026 Wei Xiang Photography · Crafted with elegance and light.
       </footer>
+
     </div>
   );
 }
