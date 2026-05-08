@@ -2,13 +2,6 @@
 
 import React, { useEffect, useRef, useState } from "react";
 
-/* ---------------- CALENDLY BADGE SAFE INIT ---------------- */
-declare global {
-  interface Window {
-    Calendly: any;
-  }
-}
-
 /* ---------------- SCROLL FADE HOOK ---------------- */
 const useScrollFade = () => {
   const ref = useRef<HTMLDivElement | null>(null);
@@ -52,31 +45,25 @@ export default function WeiPhotographyStudio() {
       title: "Glow Session",
       price: "¥499",
       details:
-        "1 person · 2 fully retouched photos · 2 color-graded selects · 1-hour studio session · Natural posing guidance",
+        "1 person · 2 fully retouched photos · 2 color-graded selects · 1-hour studio session",
     },
     {
       title: "Glam Session",
       price: "¥899",
       details:
-        "Max 2 people · 3 fully retouched photos · 2-hour studio session · Creative direction included",
+        "Max 2 people · 3 fully retouched photos · 2-hour studio session",
     },
     {
       title: "Glam Outdoors",
       price: "¥799",
       details:
-        "Outdoor cinematic shoot · 3 retouched photos · natural light storytelling",
+        "Outdoor cinematic portrait session",
     },
     {
       title: "Shimmer Session",
       price: "¥1799",
       details:
-        "3-hour styled shoot · 7 retouched photos · priority editing",
-    },
-    {
-      title: "Shimmer Outdoors",
-      price: "¥1499",
-      details:
-        "Multi-location cinematic session · 7 retouched photos",
+        "3-hour styled shoot · 7 retouched photos",
     },
   ];
 
@@ -85,29 +72,6 @@ export default function WeiPhotographyStudio() {
     { image: "/photos/portrait-1.jpg", title: "Portrait Sessions" },
     { image: "/photos/editorial-1.jpg", title: "Editorial Moments" },
   ];
-
-  /* ---------------- CALENDLY INIT (SAFE) ---------------- */
-  useEffect(() => {
-    const initCalendly = () => {
-      if (!window.Calendly) return;
-
-      window.Calendly.initBadgeWidget({
-        url: "https://calendly.com/weixiangphotos/new-meeting",
-        text: "Reserve your Session",
-        color: "#424242",
-        textColor: "#ffffff",
-        branding: true,
-      });
-    };
-
-    const script = document.createElement("script");
-    script.src =
-      "https://assets.calendly.com/assets/external/widget.js";
-    script.async = true;
-    script.onload = initCalendly;
-
-    document.body.appendChild(script);
-  }, []);
 
   return (
     <div className="min-h-screen bg-[#f8f5f0] text-[#2b2b2b] font-serif">
@@ -142,7 +106,7 @@ export default function WeiPhotographyStudio() {
             </h1>
 
             <p className="mt-6 text-white/80">
-              Cinematic portrait photography crafted with intention.
+              Cinematic portrait photography with timeless emotion.
             </p>
           </div>
         </div>
@@ -151,6 +115,7 @@ export default function WeiPhotographyStudio() {
       {/* PORTFOLIO */}
       <FadeInSection>
         <section id="portfolio" className="px-6 py-24 md:px-16">
+
           <div className="text-center mb-12">
             <p className="uppercase text-sm tracking-[0.3em] text-gray-500">
               Portfolio
@@ -173,12 +138,14 @@ export default function WeiPhotographyStudio() {
               </div>
             ))}
           </div>
+
         </section>
       </FadeInSection>
 
       {/* PACKAGES */}
       <FadeInSection>
         <section id="packages" className="bg-[#ece6dc] py-24 px-6">
+
           <div className="text-center mb-12">
             <p className="uppercase text-sm tracking-[0.3em] text-gray-600">
               Packages
@@ -200,33 +167,46 @@ export default function WeiPhotographyStudio() {
               </div>
             ))}
           </div>
+
         </section>
       </FadeInSection>
 
-      {/* BOOKING */}
+      {/* BOOKING (SIMPLIFIED FINAL VERSION) */}
       <FadeInSection>
         <section
           id="calendar"
           className="py-24 px-6 text-center bg-[#f8f5f0]"
         >
-          <h2 className="text-4xl md:text-5xl font-light">
-            Book Your Session
-          </h2>
+          <div className="max-w-3xl mx-auto">
 
-          <p className="mt-4 text-gray-600">
-            Click the button to choose your time.
-          </p>
+            <h2 className="text-4xl md:text-5xl font-light">
+              Book Your Session
+            </h2>
 
-          <p className="mt-6 text-sm text-gray-500">
-            (Booking button appears bottom-right of screen)
-          </p>
+            <p className="mt-4 text-gray-600">
+              Click below to schedule your shoot instantly.
+            </p>
+
+            <div className="mt-10">
+              <a
+                href="https://calendly.com/weixiangphotos/new-meeting"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block bg-black text-white px-10 py-5 rounded-full uppercase tracking-[0.2em] hover:bg-neutral-800 transition"
+              >
+                Book Now
+              </a>
+            </div>
+
+          </div>
         </section>
       </FadeInSection>
 
       {/* FOOTER */}
-      <footer className="text-center py-10 text-sm text-gray-500 border-t">
+      <footer className="border-t border-neutral-200 px-6 py-10 text-center text-sm text-neutral-500">
         © 2026 WEIXIANG PHOTOGRAPHY
       </footer>
+
     </div>
   );
 }
