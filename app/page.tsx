@@ -80,13 +80,21 @@ export default function WeiPhotographyStudio() {
     { image: "/photos/editorial-1.jpg", title: "Editorial Moments" },
   ];
 
+  const calendlyURL =
+    "https://calendly.com/weixiangphotos/new-meeting";
+
+  const [rootElement, setRootElement] =
+    useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    setRootElement(document.body);
+  }, []);
+
   const scrollToBooking = () => {
     document.getElementById("calendar")?.scrollIntoView({
       behavior: "smooth",
     });
   };
-
-  const calendlyURL = "https://calendly.com/weixiangphotos/new-meeting";
 
   return (
     <div className="min-h-screen bg-[#f8f5f0] text-[#2b2b2b] font-serif">
@@ -128,14 +136,16 @@ export default function WeiPhotographyStudio() {
               Elegant portrait photography crafted with cinematic tones and timeless emotion.
             </p>
 
-            {/* TOP BUTTON (CALENDLY POPUP) */}
+            {/* TOP BUTTON */}
             <div className="mt-10">
-              <PopupButton
-                url={calendlyURL}
-                rootElement={typeof document !== "undefined" ? document.body : undefined}
-                text="Book Meeting"
-                className="inline-block rounded-full border border-white px-8 py-4 uppercase tracking-[0.2em] hover:bg-white hover:text-black transition"
-              />
+              {rootElement && (
+                <PopupButton
+                  url={calendlyURL}
+                  rootElement={rootElement}
+                  text="Book Meeting"
+                  className="inline-block rounded-full border border-white px-8 py-4 uppercase tracking-[0.2em] hover:bg-white hover:text-black transition"
+                />
+              )}
             </div>
 
           </div>
@@ -221,7 +231,7 @@ export default function WeiPhotographyStudio() {
         </section>
       </FadeInSection>
 
-      {/* BOOKING (CLEAN + POPUP ONLY) */}
+      {/* BOOKING */}
       <FadeInSection>
         <section id="calendar" className="py-24 px-6 text-center bg-[#f8f5f0]">
 
@@ -234,12 +244,16 @@ export default function WeiPhotographyStudio() {
           </p>
 
           <div className="mt-10 flex justify-center">
-            <PopupButton
-              url={calendlyURL}
-              rootElement={typeof document !== "undefined" ? document.body : undefined}
-              text="Book Now"
-              className="bg-black text-white px-10 py-5 rounded-full uppercase tracking-[0.2em] hover:bg-neutral-800 transition"
-            />
+
+            {rootElement && (
+              <PopupButton
+                url={calendlyURL}
+                rootElement={rootElement}
+                text="Book Now"
+                className="bg-black text-white px-10 py-5 rounded-full uppercase tracking-[0.2em] hover:bg-neutral-800 transition"
+              />
+            )}
+
           </div>
 
         </section>
