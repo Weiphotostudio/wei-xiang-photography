@@ -1,7 +1,7 @@
-\"use client";
+"use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { PopupButton } from "react-calendly";
+import Script from "next/script";
 
 /* ---------------- SCROLL FADE HOOK ---------------- */
 const useScrollFade = () => {
@@ -41,14 +41,6 @@ const FadeInSection = ({ children }: { children: React.ReactNode }) => {
 };
 
 export default function WeiPhotographyStudio() {
-
-  // ✅ SAFE ROOT ELEMENT (fixes build error)
-  const [rootElement, setRootElement] = useState<HTMLElement | null>(null);
-
-  useEffect(() => {
-    setRootElement(document.body);
-  }, []);
-
   const packages = [
     {
       title: "Glow Session",
@@ -91,12 +83,31 @@ export default function WeiPhotographyStudio() {
   return (
     <div className="min-h-screen bg-[#f8f5f0] text-[#2b2b2b] font-serif">
 
+      {/* CALENDLY BADGE SCRIPT (SAFE NEXT.JS VERSION) */}
+      <Script
+        src="https://assets.calendly.com/assets/external/widget.js"
+        strategy="afterInteractive"
+      />
+
+      <Script id="calendly-badge" strategy="afterInteractive">
+        {`
+          window.onload = function() {
+            Calendly.initBadgeWidget({
+              url: 'https://calendly.com/weixiangphotos/new-meeting?text_color=ffffff&primary_color=403a3a',
+              text: 'Reserve your Session',
+              color: '#424242',
+              textColor: '#ffffff',
+              branding: true
+            });
+          }
+        `}
+      </Script>
+
       {/* HERO */}
       <header className="relative h-screen overflow-hidden">
 
         <img
           src="/photos/header.jpg"
-          alt="Photography Hero"
           className="absolute inset-0 h-full w-full object-cover grayscale scale-105"
         />
 
@@ -129,17 +140,6 @@ export default function WeiPhotographyStudio() {
               Elegant portrait photography crafted with cinematic tones and timeless emotion.
             </p>
 
-            <div className="mt-10">
-              {rootElement && (
-                <PopupButton
-                  url="https://calendly.com/weixiangphotos/new-meeting"
-                  rootElement={rootElement}
-                  text="Book Your Session"
-                  className="rounded-full border border-white px-8 py-4 uppercase tracking-[0.2em] hover:bg-white hover:text-black transition"
-                />
-              )}
-            </div>
-
           </div>
 
         </div>
@@ -149,84 +149,90 @@ export default function WeiPhotographyStudio() {
       {/* PORTFOLIO */}
       <FadeInSection>
         <section id="portfolio" className="px-6 py-24 md:px-16">
+
           <div className="max-w-7xl mx-auto text-center mb-16">
             <p className="uppercase tracking-[0.3em] text-sm text-neutral-500">
               Portfolio
             </p>
+
             <h2 className="mt-4 text-4xl md:text-5xl font-light">
               Curated Visual Stories
             </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 max-w-7xl mx-auto">
+
             {portfolio.map((item) => (
               <a
                 key={item.title}
                 href="/portfolio"
                 className="group overflow-hidden rounded-[2rem] bg-white shadow-lg"
               >
+
                 <img
                   src={item.image}
-                  alt={item.title}
                   className="h-[500px] w-full object-cover transition duration-700 group-hover:scale-105"
                 />
+
                 <div className="p-6">
                   <h3 className="text-2xl font-light">{item.title}</h3>
                   <p className="mt-2 text-sm uppercase tracking-[0.2em] text-neutral-500">
                     View Gallery
                   </p>
                 </div>
+
               </a>
             ))}
+
           </div>
+
         </section>
       </FadeInSection>
 
       {/* PACKAGES */}
       <FadeInSection>
         <section id="packages" className="bg-[#ece6dc] px-6 py-24 md:px-16">
+
           <div className="max-w-6xl mx-auto text-center mb-16">
             <p className="uppercase tracking-[0.3em] text-sm text-neutral-600">
               Packages
             </p>
+
             <h2 className="mt-4 text-4xl md:text-5xl font-light">
               Signature Experiences
             </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+
             {packages.map((pkg) => (
               <div
                 key={pkg.title}
                 className="rounded-[2rem] bg-white p-10 shadow-xl border border-neutral-100"
               >
+
                 <h3 className="text-2xl font-light">{pkg.title}</h3>
+
                 <div className="mt-6 text-5xl font-light">{pkg.price}</div>
+
                 <p className="mt-6 text-neutral-600">{pkg.details}</p>
 
-                <div className="mt-10">
-                  {rootElement && (
-                    <PopupButton
-                      url="https://calendly.com/weixiangphotos/new-meeting"
-                      rootElement={rootElement}
-                      text="Reserve Package"
-                      className="w-full rounded-full bg-black px-6 py-4 text-sm uppercase tracking-[0.2em] text-white hover:bg-neutral-800 transition"
-                    />
-                  )}
-                </div>
               </div>
             ))}
+
           </div>
+
         </section>
       </FadeInSection>
 
-      {/* BOOKING */}
+      {/* BOOKING SECTION */}
       <FadeInSection>
         <section id="calendar" className="bg-[#f8f5f0] px-6 py-24 md:px-16 text-center">
+
           <div className="max-w-4xl mx-auto">
 
             <p className="uppercase tracking-[0.3em] text-sm text-neutral-600">
-              Availability
+              Booking
             </p>
 
             <h2 className="mt-4 text-4xl md:text-5xl font-light">
@@ -234,21 +240,16 @@ export default function WeiPhotographyStudio() {
             </h2>
 
             <p className="mt-6 text-neutral-600">
-              Select your preferred time through our booking calendar.
+              Click the button to open your booking calendar instantly.
             </p>
 
-            <div className="mt-12">
-              {rootElement && (
-                <PopupButton
-                  url="https://calendly.com/weixiangphotos/new-meeting"
-                  rootElement={rootElement}
-                  text="Open Booking Calendar"
-                  className="rounded-full bg-black px-10 py-5 text-sm uppercase tracking-[0.2em] text-white hover:bg-neutral-800 transition"
-                />
-              )}
+            {/* Badge will appear automatically (floating button) */}
+            <div className="mt-10 text-neutral-400 text-sm">
+              Booking button appears on screen →
             </div>
 
           </div>
+
         </section>
       </FadeInSection>
 
