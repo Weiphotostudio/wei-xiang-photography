@@ -142,7 +142,7 @@ export default function WeiPhotographyStudio() {
                 <PopupButton
                   url={calendlyURL}
                   rootElement={rootElement}
-                  text="Book Meeting"
+                  text="Book Session"
                   className="inline-block rounded-full border border-white px-8 py-4 uppercase tracking-[0.2em] hover:bg-white hover:text-black transition"
                 />
               )}
