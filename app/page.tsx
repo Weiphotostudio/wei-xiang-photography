@@ -1,7 +1,13 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import Script from "next/script";
+
+/* ---------------- CALENDLY BADGE SAFE INIT ---------------- */
+declare global {
+  interface Window {
+    Calendly: any;
+  }
+}
 
 /* ---------------- SCROLL FADE HOOK ---------------- */
 const useScrollFade = () => {
@@ -46,31 +52,31 @@ export default function WeiPhotographyStudio() {
       title: "Glow Session",
       price: "¥499",
       details:
-        "1 person · 2 fully retouched photos · 2 color-graded selects · 1-hour studio session · Natural styling guidance + simple posing",
+        "1 person · 2 fully retouched photos · 2 color-graded selects · 1-hour studio session · Natural posing guidance",
     },
     {
       title: "Glam Session",
       price: "¥899",
       details:
-        "Max 2 people · 3 fully retouched photos · 3 color-graded selects · 2-hour studio session · Creative direction included",
+        "Max 2 people · 3 fully retouched photos · 2-hour studio session · Creative direction included",
     },
     {
       title: "Glam Outdoors",
       price: "¥799",
       details:
-        "3 fully retouched photos · 2 color-graded selects · 2.5-hour outdoor session · Outfit variation · Natural light storytelling",
+        "Outdoor cinematic shoot · 3 retouched photos · natural light storytelling",
     },
     {
       title: "Shimmer Session",
       price: "¥1799",
       details:
-        "Max 3 people · 7 fully retouched photos · 5 color-graded selects · 3-hour styled concept shoot · Priority editing",
+        "3-hour styled shoot · 7 retouched photos · priority editing",
     },
     {
       title: "Shimmer Outdoors",
       price: "¥1499",
       details:
-        "7 fully retouched photos · 5 color-graded selects · 3–4 hour session · Multiple locations · Cinematic natural light approach",
+        "Multi-location cinematic session · 7 retouched photos",
     },
   ];
 
@@ -80,28 +86,31 @@ export default function WeiPhotographyStudio() {
     { image: "/photos/editorial-1.jpg", title: "Editorial Moments" },
   ];
 
+  /* ---------------- CALENDLY INIT (SAFE) ---------------- */
+  useEffect(() => {
+    const initCalendly = () => {
+      if (!window.Calendly) return;
+
+      window.Calendly.initBadgeWidget({
+        url: "https://calendly.com/weixiangphotos/new-meeting",
+        text: "Reserve your Session",
+        color: "#424242",
+        textColor: "#ffffff",
+        branding: true,
+      });
+    };
+
+    const script = document.createElement("script");
+    script.src =
+      "https://assets.calendly.com/assets/external/widget.js";
+    script.async = true;
+    script.onload = initCalendly;
+
+    document.body.appendChild(script);
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#f8f5f0] text-[#2b2b2b] font-serif">
-
-      {/* CALENDLY BADGE SCRIPT (SAFE NEXT.JS VERSION) */}
-      <Script
-        src="https://assets.calendly.com/assets/external/widget.js"
-        strategy="afterInteractive"
-      />
-
-      <Script id="calendly-badge" strategy="afterInteractive">
-        {`
-          window.onload = function() {
-            Calendly.initBadgeWidget({
-              url: 'https://calendly.com/weixiangphotos/new-meeting?text_color=ffffff&primary_color=403a3a',
-              text: 'Reserve your Session',
-              color: '#424242',
-              textColor: '#ffffff',
-              branding: true
-            });
-          }
-        `}
-      </Script>
 
       {/* HERO */}
       <header className="relative h-screen overflow-hidden">
@@ -111,153 +120,113 @@ export default function WeiPhotographyStudio() {
           className="absolute inset-0 h-full w-full object-cover grayscale scale-105"
         />
 
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/80" />
+        <div className="absolute inset-0 bg-black/60" />
 
-        <nav className="relative z-10 flex items-center justify-between px-10 py-8 text-white backdrop-blur-md bg-black/20">
-
-          <div className="text-2xl md:text-4xl font-light tracking-[0.18em] uppercase">
+        <nav className="relative z-10 flex justify-between px-10 py-8 text-white">
+          <div className="text-xl md:text-3xl tracking-[0.2em] uppercase">
             WEIXIANG PHOTOGRAPHY
           </div>
 
-          <div className="hidden md:flex gap-8 text-sm uppercase text-white/90">
+          <div className="hidden md:flex gap-8 text-sm uppercase">
             <a href="#portfolio">Portfolio</a>
             <a href="#packages">Packages</a>
             <a href="#calendar">Booking</a>
           </div>
-
         </nav>
 
         <div className="relative z-10 flex h-[80%] items-center justify-center text-center text-white px-6">
-
           <div className="max-w-3xl">
-
             <h1 className="text-5xl md:text-7xl font-light">
               Capturing Emotion
               <span className="block italic">With Elegance</span>
             </h1>
 
-            <p className="mt-8 text-white/80">
-              Elegant portrait photography crafted with cinematic tones and timeless emotion.
+            <p className="mt-6 text-white/80">
+              Cinematic portrait photography crafted with intention.
             </p>
-
           </div>
-
         </div>
-
       </header>
 
       {/* PORTFOLIO */}
       <FadeInSection>
         <section id="portfolio" className="px-6 py-24 md:px-16">
-
-          <div className="max-w-7xl mx-auto text-center mb-16">
-            <p className="uppercase tracking-[0.3em] text-sm text-neutral-500">
+          <div className="text-center mb-12">
+            <p className="uppercase text-sm tracking-[0.3em] text-gray-500">
               Portfolio
             </p>
-
-            <h2 className="mt-4 text-4xl md:text-5xl font-light">
-              Curated Visual Stories
+            <h2 className="text-4xl md:text-5xl font-light mt-4">
+              Visual Stories
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 max-w-7xl mx-auto">
-
-            {portfolio.map((item) => (
-              <a
-                key={item.title}
-                href="/portfolio"
-                className="group overflow-hidden rounded-[2rem] bg-white shadow-lg"
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {portfolio.map((p) => (
+              <div
+                key={p.title}
+                className="rounded-2xl overflow-hidden bg-white shadow"
               >
-
-                <img
-                  src={item.image}
-                  className="h-[500px] w-full object-cover transition duration-700 group-hover:scale-105"
-                />
-
-                <div className="p-6">
-                  <h3 className="text-2xl font-light">{item.title}</h3>
-                  <p className="mt-2 text-sm uppercase tracking-[0.2em] text-neutral-500">
-                    View Gallery
-                  </p>
+                <img src={p.image} className="h-[450px] w-full object-cover" />
+                <div className="p-5">
+                  <h3 className="text-xl">{p.title}</h3>
                 </div>
-
-              </a>
+              </div>
             ))}
-
           </div>
-
         </section>
       </FadeInSection>
 
       {/* PACKAGES */}
       <FadeInSection>
-        <section id="packages" className="bg-[#ece6dc] px-6 py-24 md:px-16">
-
-          <div className="max-w-6xl mx-auto text-center mb-16">
-            <p className="uppercase tracking-[0.3em] text-sm text-neutral-600">
+        <section id="packages" className="bg-[#ece6dc] py-24 px-6">
+          <div className="text-center mb-12">
+            <p className="uppercase text-sm tracking-[0.3em] text-gray-600">
               Packages
             </p>
-
-            <h2 className="mt-4 text-4xl md:text-5xl font-light">
+            <h2 className="text-4xl md:text-5xl font-light mt-4">
               Signature Experiences
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {packages.map((pkg) => (
               <div
                 key={pkg.title}
-                className="rounded-[2rem] bg-white p-10 shadow-xl border border-neutral-100"
+                className="bg-white p-8 rounded-2xl shadow"
               >
-
                 <h3 className="text-2xl font-light">{pkg.title}</h3>
-
-                <div className="mt-6 text-5xl font-light">{pkg.price}</div>
-
-                <p className="mt-6 text-neutral-600">{pkg.details}</p>
-
+                <p className="text-3xl mt-4">{pkg.price}</p>
+                <p className="mt-4 text-gray-600">{pkg.details}</p>
               </div>
             ))}
-
           </div>
-
         </section>
       </FadeInSection>
 
-      {/* BOOKING SECTION */}
+      {/* BOOKING */}
       <FadeInSection>
-        <section id="calendar" className="bg-[#f8f5f0] px-6 py-24 md:px-16 text-center">
+        <section
+          id="calendar"
+          className="py-24 px-6 text-center bg-[#f8f5f0]"
+        >
+          <h2 className="text-4xl md:text-5xl font-light">
+            Book Your Session
+          </h2>
 
-          <div className="max-w-4xl mx-auto">
+          <p className="mt-4 text-gray-600">
+            Click the button to choose your time.
+          </p>
 
-            <p className="uppercase tracking-[0.3em] text-sm text-neutral-600">
-              Booking
-            </p>
-
-            <h2 className="mt-4 text-4xl md:text-5xl font-light">
-              Reserve Your Session
-            </h2>
-
-            <p className="mt-6 text-neutral-600">
-              Click the button to open your booking calendar instantly.
-            </p>
-
-            {/* Badge will appear automatically (floating button) */}
-            <div className="mt-10 text-neutral-400 text-sm">
-              Booking button appears on screen →
-            </div>
-
-          </div>
-
+          <p className="mt-6 text-sm text-gray-500">
+            (Booking button appears bottom-right of screen)
+          </p>
         </section>
       </FadeInSection>
 
       {/* FOOTER */}
-      <footer className="border-t border-neutral-200 px-6 py-10 text-center text-sm text-neutral-500">
-        © 2026 WEIXIANG PHOTOGRAPHY · Crafted with elegance and light.
+      <footer className="text-center py-10 text-sm text-gray-500 border-t">
+        © 2026 WEIXIANG PHOTOGRAPHY
       </footer>
-
     </div>
   );
 }
