@@ -143,7 +143,6 @@ export default function WeiPhotographyStudio() {
             <p className="uppercase tracking-[0.3em] text-sm text-neutral-500">
               Portfolio
             </p>
-
             <h2 className="mt-4 text-4xl md:text-5xl font-light">
               Curated Visual Stories
             </h2>
@@ -187,7 +186,6 @@ export default function WeiPhotographyStudio() {
             <p className="uppercase tracking-[0.3em] text-sm text-neutral-600">
               Packages
             </p>
-
             <h2 className="mt-4 text-4xl md:text-5xl font-light">
               Signature Experiences
             </h2>
@@ -225,7 +223,10 @@ export default function WeiPhotographyStudio() {
 
       {/* BOOKING */}
       <FadeInSection>
-        <section id="calendar" className="bg-[#f8f5f0] px-6 py-24 md:px-16 text-center">
+        <section
+          id="calendar"
+          className="bg-[#f8f5f0] px-6 py-24 md:px-16 text-center"
+        >
 
           <div className="max-w-4xl mx-auto">
 
