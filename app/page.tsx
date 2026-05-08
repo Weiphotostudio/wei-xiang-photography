@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import { PopupButton } from "react-calendly";
 
 /* ---------------- SCROLL FADE HOOK ---------------- */
 const useScrollFade = () => {
@@ -51,7 +52,7 @@ export default function WeiPhotographyStudio() {
       title: "Glam Session",
       price: "¥899",
       details:
-        "Max 2 people · 3 fully retouched photos · 2-hour studio session",
+        "Max 2 people · 3 fully retouched photos · 2-hour session",
     },
     {
       title: "Glam Outdoors",
@@ -65,6 +66,12 @@ export default function WeiPhotographyStudio() {
       details:
         "3-hour styled shoot · 7 retouched photos",
     },
+    {
+      title: "Shimmer Outdoors",
+      price: "¥1499",
+      details:
+        "Cinematic multi-location shoot",
+    },
   ];
 
   const portfolio = [
@@ -72,6 +79,14 @@ export default function WeiPhotographyStudio() {
     { image: "/photos/portrait-1.jpg", title: "Portrait Sessions" },
     { image: "/photos/editorial-1.jpg", title: "Editorial Moments" },
   ];
+
+  const scrollToBooking = () => {
+    document.getElementById("calendar")?.scrollIntoView({
+      behavior: "smooth",
+    });
+  };
+
+  const calendlyURL = "https://calendly.com/weixiangphotos/new-meeting";
 
   return (
     <div className="min-h-screen bg-[#f8f5f0] text-[#2b2b2b] font-serif">
@@ -84,31 +99,47 @@ export default function WeiPhotographyStudio() {
           className="absolute inset-0 h-full w-full object-cover grayscale scale-105"
         />
 
-        <div className="absolute inset-0 bg-black/60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/80" />
 
-        <nav className="relative z-10 flex justify-between px-10 py-8 text-white">
-          <div className="text-xl md:text-3xl tracking-[0.2em] uppercase">
+        <nav className="relative z-10 flex items-center justify-between px-10 py-8 text-white backdrop-blur-md bg-black/20">
+
+          <div className="text-2xl md:text-4xl font-light tracking-[0.18em] uppercase">
             WEIXIANG PHOTOGRAPHY
           </div>
 
-          <div className="hidden md:flex gap-8 text-sm uppercase">
+          <div className="hidden md:flex gap-8 text-sm uppercase text-white/90">
             <a href="#portfolio">Portfolio</a>
             <a href="#packages">Packages</a>
             <a href="#calendar">Booking</a>
           </div>
+
         </nav>
 
         <div className="relative z-10 flex h-[80%] items-center justify-center text-center text-white px-6">
+
           <div className="max-w-3xl">
+
             <h1 className="text-5xl md:text-7xl font-light">
               Capturing Emotion
               <span className="block italic">With Elegance</span>
             </h1>
 
-            <p className="mt-6 text-white/80">
-              Cinematic portrait photography with timeless emotion.
+            <p className="mt-8 text-white/80">
+              Elegant portrait photography crafted with cinematic tones and timeless emotion.
             </p>
+
+            {/* TOP BUTTON (CALENDLY POPUP) */}
+            <div className="mt-10">
+              <PopupButton
+                url={calendlyURL}
+                rootElement={typeof document !== "undefined" ? document.body : undefined}
+                text="Book Meeting"
+                className="inline-block rounded-full border border-white px-8 py-4 uppercase tracking-[0.2em] hover:bg-white hover:text-black transition"
+              />
+            </div>
+
           </div>
+
         </div>
       </header>
 
@@ -116,27 +147,36 @@ export default function WeiPhotographyStudio() {
       <FadeInSection>
         <section id="portfolio" className="px-6 py-24 md:px-16">
 
-          <div className="text-center mb-12">
-            <p className="uppercase text-sm tracking-[0.3em] text-gray-500">
+          <div className="max-w-7xl mx-auto text-center mb-16">
+            <p className="uppercase tracking-[0.3em] text-sm text-neutral-500">
               Portfolio
             </p>
-            <h2 className="text-4xl md:text-5xl font-light mt-4">
-              Visual Stories
+            <h2 className="mt-4 text-4xl md:text-5xl font-light">
+              Curated Visual Stories
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {portfolio.map((p) => (
-              <div
-                key={p.title}
-                className="rounded-2xl overflow-hidden bg-white shadow"
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 max-w-7xl mx-auto">
+
+            {portfolio.map((item) => (
+              <a
+                key={item.title}
+                href="/portfolio"
+                className="group overflow-hidden rounded-[2rem] bg-white shadow-lg"
               >
-                <img src={p.image} className="h-[450px] w-full object-cover" />
-                <div className="p-5">
-                  <h3 className="text-xl">{p.title}</h3>
+                <img
+                  src={item.image}
+                  className="h-[500px] w-full object-cover transition duration-700 group-hover:scale-105"
+                />
+                <div className="p-6">
+                  <h3 className="text-2xl font-light">{item.title}</h3>
+                  <p className="mt-2 text-sm uppercase tracking-[0.2em] text-neutral-500">
+                    View Gallery
+                  </p>
                 </div>
-              </div>
+              </a>
             ))}
+
           </div>
 
         </section>
@@ -144,67 +184,70 @@ export default function WeiPhotographyStudio() {
 
       {/* PACKAGES */}
       <FadeInSection>
-        <section id="packages" className="bg-[#ece6dc] py-24 px-6">
+        <section id="packages" className="bg-[#ece6dc] px-6 py-24 md:px-16">
 
-          <div className="text-center mb-12">
-            <p className="uppercase text-sm tracking-[0.3em] text-gray-600">
+          <div className="max-w-6xl mx-auto text-center mb-16">
+            <p className="uppercase tracking-[0.3em] text-sm text-neutral-600">
               Packages
             </p>
-            <h2 className="text-4xl md:text-5xl font-light mt-4">
+            <h2 className="mt-4 text-4xl md:text-5xl font-light">
               Signature Experiences
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+
             {packages.map((pkg) => (
               <div
                 key={pkg.title}
-                className="bg-white p-8 rounded-2xl shadow"
+                className="rounded-[2rem] bg-white p-10 shadow-xl border border-neutral-100"
               >
                 <h3 className="text-2xl font-light">{pkg.title}</h3>
-                <p className="text-3xl mt-4">{pkg.price}</p>
-                <p className="mt-4 text-gray-600">{pkg.details}</p>
+                <div className="mt-6 text-5xl font-light">{pkg.price}</div>
+                <p className="mt-6 text-neutral-600">{pkg.details}</p>
+
+                <button
+                  onClick={scrollToBooking}
+                  className="mt-10 w-full rounded-full bg-black px-6 py-4 text-sm uppercase tracking-[0.2em] text-white"
+                >
+                  Reserve Package
+                </button>
+
               </div>
             ))}
+
           </div>
 
         </section>
       </FadeInSection>
 
-      {/* BOOKING (SIMPLIFIED FINAL VERSION) */}
+      {/* BOOKING (CLEAN + POPUP ONLY) */}
       <FadeInSection>
-        <section
-          id="calendar"
-          className="py-24 px-6 text-center bg-[#f8f5f0]"
-        >
-          <div className="max-w-3xl mx-auto">
+        <section id="calendar" className="py-24 px-6 text-center bg-[#f8f5f0]">
 
-            <h2 className="text-4xl md:text-5xl font-light">
-              Book Your Session
-            </h2>
+          <h2 className="text-4xl md:text-5xl font-light">
+            Book Your Session
+          </h2>
 
-            <p className="mt-4 text-gray-600">
-              Click below to schedule your shoot instantly.
-            </p>
+          <p className="mt-4 text-gray-600">
+            Click below to open our booking calendar.
+          </p>
 
-            <div className="mt-10">
-              <a
-                href="https://calendly.com/weixiangphotos/new-meeting"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block bg-black text-white px-10 py-5 rounded-full uppercase tracking-[0.2em] hover:bg-neutral-800 transition"
-              >
-                Book Now
-              </a>
-            </div>
-
+          <div className="mt-10 flex justify-center">
+            <PopupButton
+              url={calendlyURL}
+              rootElement={typeof document !== "undefined" ? document.body : undefined}
+              text="Book Now"
+              className="bg-black text-white px-10 py-5 rounded-full uppercase tracking-[0.2em] hover:bg-neutral-800 transition"
+            />
           </div>
+
         </section>
       </FadeInSection>
 
       {/* FOOTER */}
       <footer className="border-t border-neutral-200 px-6 py-10 text-center text-sm text-neutral-500">
-        © 2026 WEIXIANG PHOTOGRAPHY
+        © 2026 WEIXIANG PHOTOGRAPHY · Crafted with elegance and light.
       </footer>
 
     </div>
